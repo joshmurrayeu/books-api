@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -14,8 +15,16 @@ class Book extends Model
     protected $fillable = [
         'isbn',
         'title',
-        'author',
+        // 'author',
         'category',
         'price',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
 }

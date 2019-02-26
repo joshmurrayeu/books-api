@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Database\Seeder;
 
 class BooksSeeder extends Seeder
@@ -44,7 +46,17 @@ class BooksSeeder extends Seeder
         );
 
         foreach ($books as $book) {
-            \App\Models\Book::create($book);
+            // Does the Author exist already?
+            $author = Author::firstOrCreate(['name' => $book['author']]);
+
+            // Unset the Author name from the array otherwise the Book::create() method will freak
+            unset($book['author']);
+
+            // Create the book and fill it with the values
+            $bookObj = new Book();
+            $bookObj->fill($book);
+            $bookObj->author()->associate($author);
+            $bookObj->save();
         }
     }
 }

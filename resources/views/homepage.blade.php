@@ -56,7 +56,7 @@
                         {{ $books->links() }}
                     </div>
                 @else
-                    <p>There are no books to display.</p>
+                    <p class="mb-0">There are no books to display.</p>
                 @endif
             </div>
         </div>
