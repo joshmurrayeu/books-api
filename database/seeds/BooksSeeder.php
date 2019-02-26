@@ -44,7 +44,7 @@ class BooksSeeder extends Seeder
         );
 
         foreach ($books as $book) {
-            //
+            \App\Models\Book::create($book);
         }
     }
 }
