@@ -36,9 +36,9 @@
                                 <tr>
                                     <td>{{ $book->isbn }}</td>
                                     <td>{{ $book->title }}</td>
-                                    <td>{{ $book->author }}</td>
-                                    <td>{{ $book->category }}</td>
-                                    <td>{{ $book->price }}</td>
+                                    <td>{{ $book->author->name }}</td>
+                                    <td>{{ implode(", ", $book->categories->pluck('name')->toArray()) }}</td>
+                                    <td>&pound;{{ $book->price }} GBP</td>
                                 </tr>
                             @endforeach
                             </tbody>
