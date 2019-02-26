@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterBooksTableAuthorToAuthorId extends Migration
+class AlterBooksTableRemoveCategory extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,8 @@ class AlterBooksTableAuthorToAuthorId extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            // Remove the author column
-            $table->dropColumn('author');
-
-            $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')
-                ->on('authors')->references('id');
+            // Remove the category column
+            $table->dropColumn('category');
         });
     }
 
@@ -31,10 +27,7 @@ class AlterBooksTableAuthorToAuthorId extends Migration
     public function down()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('author');
-
-            $table->dropForeign('author_id');
-            $table->dropColumn('author_id');
+            $table->string('category');
         });
     }
 }

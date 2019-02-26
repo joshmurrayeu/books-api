@@ -16,7 +16,7 @@ class Book extends Model
         'isbn',
         'title',
         // 'author',
-        'category',
+        // 'category',
         'price',
     ];
 
@@ -26,5 +26,13 @@ class Book extends Model
     public function author()
     {
         return $this->belongsTo(Author::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 }

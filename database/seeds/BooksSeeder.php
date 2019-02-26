@@ -19,28 +19,28 @@ class BooksSeeder extends Seeder
                 'isbn' => '978-1491918661',
                 'title' => 'Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5',
                 'author' => 'Robin Nixon',
-                'category' => 'PHP, Javascript',
+                'categories' => ['PHP', 'Javascript'],
                 'price' => 9.99,
             ),
             array(
                 'isbn' => '978-0596804848',
                 'title' => "Ubuntu: Up and Running: A Power User's Desktop Guide",
                 'author' => 'Robin Nixon',
-                'category' => 'Linux',
+                'categories' => ['Linux'],
                 'price' => 12.99,
             ),
             array(
                 'isbn' => '978-1118999875',
                 'title' => 'Linux Bible',
                 'author' => 'Christopher Negus',
-                'category' => 'Linux',
+                'categories' => ['Linux'],
                 'price' => 19.99,
             ),
             array(
                 'isbn' => '978-0596517748',
                 'title' => 'JavaScript: The Good Parts',
                 'author' => 'Douglas Crockford',
-                'category' => 'JavaScript',
+                'categories' => ['JavaScript'],
                 'price' => 8.99,
             ),
         );
@@ -49,14 +49,30 @@ class BooksSeeder extends Seeder
             // Does the Author exist already?
             $author = Author::firstOrCreate(['name' => $book['author']]);
 
-            // Unset the Author name from the array otherwise the Book::create() method will freak
+            // Do the Categories exist already?
+            $categories = array();
+
+            foreach ($book['categories'] as $category) {
+                $categories[] = \App\Models\Category::firstOrCreate(['name' => $category]);
+            }
+
+            // we now have an array of Category (in model form).
+
+            // Unset the Author name and Categories from the array otherwise the Book::create() method will freak
             unset($book['author']);
+            unset($book['categories']);
 
             // Create the book and fill it with the values
             $bookObj = new Book();
             $bookObj->fill($book);
             $bookObj->author()->associate($author);
+
+            // Save the Book, then attach the Categories
             $bookObj->save();
+
+            foreach ($categories as $category) {
+                $bookObj->categories()->attach($category->id);
+            }
         }
     }
 }
