@@ -61,7 +61,7 @@ class BooksController extends Controller
             'categories' => 'required',
             'price' => 'required|numeric',
         ], [
-            'isbn.regex' => 'Invalid ISBN'
+            'isbn.isbn' => 'Invalid ISBN'
         ]);
 
         // Check if it passes
